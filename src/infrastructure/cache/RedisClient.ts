@@ -6,14 +6,20 @@ let redisClient: Redis | null = null;
 
 export const getRedis = (): Redis => {
   if (!redisClient) {
-    redisClient = new Redis({
-      host: config.redis.host,
-      port: config.redis.port,
-      password: config.redis.password || undefined,
-      db: config.redis.db,
-      retryStrategy: (times) => Math.min(times * 100, 3000),
-      lazyConnect: true,
-    });
+    if (process.env.REDIS_URL) {
+      redisClient = new Redis(process.env.REDIS_URL, {
+        retryStrategy: (times) => Math.min(times * 100, 3000),
+      });
+    } else {
+      redisClient = new Redis({
+        host: config.redis.host,
+        port: config.redis.port,
+        password: config.redis.password || undefined,
+        db: config.redis.db,
+        retryStrategy: (times) => Math.min(times * 100, 3000),
+        lazyConnect: true,
+      });
+    }
     redisClient.on('connect', () => logger.info('Redis connected'));
     redisClient.on('error', (err) => logger.error('Redis error', { error: err.message }));
     redisClient.on('reconnecting', () => logger.warn('Redis reconnecting'));
