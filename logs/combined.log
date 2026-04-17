@@ -1,0 +1,30 @@
+[31merror[39m: Failed to start server {"error":"database \"upi_gateway\" does not exist","service":"upi-gateway","timestamp":"00:15:00"}
+[31merror[39m: Failed to start server {"error":"database \"upi_gateway\" does not exist","service":"upi-gateway","timestamp":"00:18:38"}
+[31merror[39m: Failed to start server {"error":"database \"upi_gateway\" does not exist","service":"upi-gateway","timestamp":"00:20:57"}
+[34mdebug[39m: PostgreSQL: new connection acquired {"service":"upi-gateway","timestamp":"00:23:48"}
+[32minfo[39m: PostgreSQL connection verified {"service":"upi-gateway","timestamp":"00:23:48"}
+[32minfo[39m: Redis connected {"service":"upi-gateway","timestamp":"00:23:48"}
+[32minfo[39m: Redis connection verified {"service":"upi-gateway","timestamp":"00:23:48"}
+[32minfo[39m: Background jobs started {"service":"upi-gateway","timestamp":"00:23:48"}
+[32minfo[39m: UPI Gateway running on port 3000 {"service":"upi-gateway","timestamp":"00:23:48"}
+[34mdebug[39m: GET /health {"query":{},"service":"upi-gateway","timestamp":"00:25:14"}
+[34mdebug[39m: GET /health {"query":{},"service":"upi-gateway","timestamp":"00:25:53"}
+[34mdebug[39m: POST /api/payments/initiate {"body":{"amount":500,"merchantId":"merchant_001","payeeUpiId":"merchant@hdfc","payerUpiId":"aditi@okaxis"},"query":{},"service":"upi-gateway","timestamp":"00:26:59"}
+[32minfo[39m: initiatePayment.start {"amount":500,"idempotencyKey":"test-key-001","service":"upi-gateway","timestamp":"00:26:59","transactionId":"new"}
+[32minfo[39m: Transaction created {"service":"upi-gateway","timestamp":"00:26:59","transactionId":"e8bb3647-1d98-45ed-ad62-82c404a9ade3"}
+[32minfo[39m: initiatePayment.success {"otp":"835539","service":"upi-gateway","timestamp":"00:26:59","transactionId":"e8bb3647-1d98-45ed-ad62-82c404a9ade3"}
+[34mdebug[39m: POST /api/payments/e8bb3647-1d98-45ed-ad62-82c404a9ade3/authenticate {"body":{"otp":"835539"},"query":{},"service":"upi-gateway","timestamp":"00:27:30"}
+[32minfo[39m: authenticateUser.start {"service":"upi-gateway","timestamp":"00:27:30","transactionId":"e8bb3647-1d98-45ed-ad62-82c404a9ade3"}
+[32minfo[39m: authenticateUser.success {"service":"upi-gateway","timestamp":"00:27:30","transactionId":"e8bb3647-1d98-45ed-ad62-82c404a9ade3"}
+[34mdebug[39m: POST /api/payments/e8bb3647-1d98-45ed-ad62-82c404a9ade3/process {"body":{},"query":{},"service":"upi-gateway","timestamp":"00:27:59"}
+[32minfo[39m: processPayment.start {"service":"upi-gateway","timestamp":"00:27:59","transactionId":"e8bb3647-1d98-45ed-ad62-82c404a9ade3"}
+[32minfo[39m: processPayment.complete {"bankReferenceId":"BANK_REF_1776452280296_ODGDCF","service":"upi-gateway","status":"SUCCESS","timestamp":"00:28:00","transactionId":"e8bb3647-1d98-45ed-ad62-82c404a9ade3"}
+[34mdebug[39m: No webhooks registered for merchant {"merchantId":"merchant_001","service":"upi-gateway","timestamp":"00:28:00"}
+[34mdebug[39m: POST /api/payments/e8bb3647-1d98-45ed-ad62-82c404a9ade3/reconcile {"body":{},"query":{},"service":"upi-gateway","timestamp":"00:28:21"}
+[32minfo[39m: reconcileTransaction.start {"service":"upi-gateway","timestamp":"00:28:21","transactionId":"e8bb3647-1d98-45ed-ad62-82c404a9ade3"}
+[32minfo[39m: reconcileTransaction.success {"service":"upi-gateway","timestamp":"00:28:21","transactionId":"e8bb3647-1d98-45ed-ad62-82c404a9ade3"}
+[34mdebug[39m: No webhooks registered for merchant {"merchantId":"merchant_001","service":"upi-gateway","timestamp":"00:28:21"}
+[34mdebug[39m: GET /api/payments/e8bb3647-1d98-45ed-ad62-82c404a9ade3/audit {"query":{},"service":"upi-gateway","timestamp":"00:28:57"}
+[34mdebug[39m: POST /api/payments/initiate {"body":{"amount":500,"merchantId":"merchant_001","payeeUpiId":"merchant@hdfc","payerUpiId":"aditi@okaxis"},"query":{},"service":"upi-gateway","timestamp":"00:29:11"}
+[34mdebug[39m: Idempotency cache hit {"key":"test-key-001","service":"upi-gateway","timestamp":"00:29:11"}
+[32minfo[39m: SIGINT received. Shutting down gracefully... {"service":"upi-gateway","timestamp":"00:36:26"}
