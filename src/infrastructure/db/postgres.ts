@@ -2,41 +2,26 @@ import { Pool, PoolClient } from 'pg';
 import { config } from '../../config';
 import { logger } from '../../utils/logger';
 
-// Singleton pool — never create multiple pools
 let pool: Pool | null = null;
 
 export const getPool = (): Pool => {
   if (!pool) {
     pool = new Pool({
-      host:     config.db.host,
-      port:     config.db.port,
-      database: config.db.database,
-      user:     config.db.user,
-      password: config.db.password,
-      min:      config.db.pool.min,
-      max:      config.db.pool.max,
-      idleTimeoutMillis:    30_000,
+      connectionString: process.env.DATABASE_URL,
+      ssl: process.env.NODE_ENV === 'production'
+        ? { rejectUnauthorized: false }
+        : false,
+      min: config.db.pool.min,
+      max: config.db.pool.max,
+      idleTimeoutMillis: 30_000,
       connectionTimeoutMillis: 5_000,
     });
-
     pool.on('connect', () => logger.debug('PostgreSQL: new connection acquired'));
     pool.on('error', (err) => logger.error('PostgreSQL pool error', { error: err.message }));
   }
   return pool;
 };
 
-// ============================================================
-// withTransaction: wraps a callback in BEGIN/COMMIT/ROLLBACK
-//
-// Usage:
-//   await withTransaction(async (client) => {
-//     await client.query(...)
-//     await client.query(...)
-//   });
-//
-// Any throw inside rolls back automatically.
-// This is how you guarantee ACID across multiple queries.
-// ============================================================
 export const withTransaction = async <T>(
   callback: (client: PoolClient) => Promise<T>
 ): Promise<T> => {
