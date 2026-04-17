@@ -103,7 +103,7 @@ export const PaymentService = {
 
     // Pure: validate transition
     const result = validateTransition(txn.status, 'AUTHENTICATED');
-    if (!result.ok) throw result.error;
+    if (!result.ok) throw (result as any).error;
 
     // Validate OTP — consume atomically (prevents replay attacks)
     const storedHash = await OTPStore.consume(transactionId);
@@ -166,7 +166,7 @@ export const PaymentService = {
       const txn = await TransactionRepo.findByIdOrThrow(transactionId);
 
       const toProcessing = validateTransition(txn.status, 'PROCESSING');
-      if (!toProcessing.ok) throw toProcessing.error;
+      if (!toProcessing.ok) throw (toProcessing as any).error;
 
       // Move to PROCESSING first — important for observability
       await TransactionRepo.transitionStatus(
@@ -227,7 +227,7 @@ export const PaymentService = {
     const txn = await TransactionRepo.findByIdOrThrow(transactionId);
 
     const result = validateTransition(txn.status, 'RECONCILED');
-    if (!result.ok) throw result.error;
+    if (!result.ok) throw (result as any).error;
 
     const updated = await TransactionRepo.transitionStatus(
       transactionId, 'RECONCILED', {},
