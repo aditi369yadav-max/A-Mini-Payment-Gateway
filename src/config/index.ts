@@ -18,7 +18,7 @@ export const config = {
   },
   db: {
     host:     optional('DB_HOST', 'localhost'),
-    port:     5433,
+    port: parseInt(optional('DB_PORT', '5432')),
     database: optional('DB_NAME', 'upi_gateway'),
     user:     optional('DB_USER', 'postgres'),
     password: optional('DB_PASSWORD', 'postgres'),

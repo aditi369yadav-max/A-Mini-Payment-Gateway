@@ -95,7 +95,6 @@ const start = async () => {
         console.log('Attempting DB connection on port:', config_1.config.db.port);
         await (0, postgres_1.getPool)().query('SELECT NOW()');
         logger_1.logger.info('PostgreSQL connection verified');
-        await (0, RedisClient_1.getRedis)().connect();
         await (0, RedisClient_1.getRedis)().ping();
         logger_1.logger.info('Redis connection verified');
         startBackgroundJobs();

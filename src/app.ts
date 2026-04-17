@@ -68,7 +68,6 @@ const start = async (): Promise<void> => {
     await getPool().query('SELECT NOW()');
     logger.info('PostgreSQL connection verified');
 
-    await getRedis().connect();
     await getRedis().ping();
     logger.info('Redis connection verified');
 
